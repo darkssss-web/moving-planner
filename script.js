@@ -1,6 +1,26 @@
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
 
+function toast(msg, timeout = 2000) {
+  const el = document.createElement('div');
+  el.textContent = msg;
+  el.style.cssText = `
+    position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+    background: rgba(15,23,42,.9); color: #fff; padding: 10px 14px;
+    border-radius: 10px; z-index: 9999; box-shadow: 0 8px 24px rgba(0,0,0,.2);
+  `;
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), timeout);
+}
+
+function validateRequired(input) {
+  if (!input) return false;
+  const ok = !!input.value.trim();
+  input.style.borderColor = ok ? '' : '#e11d48';
+  if (!ok) toast('Заполните обязательное поле');
+  return ok;
+}
+
 function initNav(current) {
   $$('.nav a').forEach(a => {
     const href = a.getAttribute('href') || '';
@@ -34,9 +54,9 @@ function renderTasks(root) {
   const addBtn = $('#addBtn');
 
   function addTask() {
-    const text = (input.value || '').trim();
-    if (!text) { alert('Введите текст задачи'); input.focus(); return; }
+    if (!validateRequired(input)) return;
 
+    const text = input.value.trim();
     const li = document.createElement('li');
     li.className = 'list-item';
     li.innerHTML = `
@@ -54,6 +74,7 @@ function renderTasks(root) {
     list.appendChild(li);
     input.value = '';
     input.focus();
+    toast('Задача добавлена');
   }
 
   addBtn.addEventListener('click', addTask);
