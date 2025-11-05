@@ -1,1 +1,30 @@
+.navbar {
+  position: sticky; top: 0;
+  background: var(--color-surface, #fff);
+  border-bottom: 1px solid rgba(15,23,42,0.06);
+  z-index: 5;
+}
+.navbar .nav {
+  display: flex;
+  gap: 16px;
+  padding: 14px 24px;
+  max-width: 920px; margin: 0 auto;
+}
+.nav a {
+  text-decoration: none;
+  color: var(--color-text, #0f172a);
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+.nav a.active {
+  background: rgba(13,110,253,0.12);
+  color: var(--color-primary, #0d6efd);
+}
 
+#app {
+  max-width: 920px; margin: 24px auto; padding: 0 16px;
+}
+
+.page { background: var(--color-surface, #fff); padding: 20px; border-radius: 12px; box-shadow: var(--shadow-1, 0 4px 16px rgba(0,0,0,.06)); }
+.page h2 { margin-top: 0; }
+.empty { color: var(--color-muted, #64748b); }
