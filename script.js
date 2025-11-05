@@ -31,9 +31,12 @@ function renderTasks(root) {
 
   const input = $('#taskInput');
   const list = $('#taskList');
-  $('#addBtn').addEventListener('click', () => {
+  const addBtn = $('#addBtn');
+
+  function addTask() {
     const text = (input.value || '').trim();
     if (!text) { alert('Введите текст задачи'); input.focus(); return; }
+
     const li = document.createElement('li');
     li.className = 'list-item';
     li.innerHTML = `
@@ -43,11 +46,19 @@ function renderTasks(root) {
         <button class="btn btn-danger">Удалить</button>
       </div>
     `;
+
     const [doneBtn, delBtn] = $$('.btn', li);
     doneBtn.addEventListener('click', () => li.classList.toggle('completed'));
     delBtn.addEventListener('click', () => li.remove());
+
     list.appendChild(li);
     input.value = '';
+    input.focus();
+  }
+
+  addBtn.addEventListener('click', addTask);
+  input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') addTask();
   });
 }
 
