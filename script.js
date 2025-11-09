@@ -25,23 +25,11 @@ function renderPage() {
 }
 
 function addTask() {
-  const input = document.getElementById('taskInput');
-  if (!input) return;
-
-  const text = input.value.trim();
-  if (!text) {
     alert('Введите текст задачи!');
     return;
   }
-
-  const list = document.getElementById('taskList');
-  const li = document.createElement('li');
-  li.innerHTML = `
-    <span>${text}</span>
-    <button onclick="this.parentElement.remove()">Удалить</button>
-  `;
-  list.appendChild(li);
-
-  input.value = "";
-  input.focus();
 }
+
+document.getElementById('taskInput').addEventListener('focus', (e) => {
+  e.target.style.outline = '2px solid var(--color-primary, #0d6efd)';
+});
