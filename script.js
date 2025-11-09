@@ -1,83 +1,47 @@
-const $ = (sel, root = document) => root.querySelector(sel);
-const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+window.addEventListener('hashchange', renderPage);
+window.addEventListener('load', renderPage);
 
-function initNav(current) {
-  $$('.nav a').forEach(a => {
-    const href = a.getAttribute('href') || '';
-    a.classList.toggle('active', href === current);
-  });
-}
+function renderPage() {
+  const route = location.hash.slice(1) || '/';
+  const app = document.getElementById('app');
 
-function renderHome(root) {
-  root.innerHTML = `
-    <div class="page">
-      <h2>Главная</h2>
-      <p class="empty">Добро пожаловать в Moving Planner. Перейдите во вкладку «Задачи», чтобы управлять процессом переезда.</p>
-    </div>
-  `;
-}
-
-function renderTasks(root) {
-  root.innerHTML = `
-    <div class="page">
-      <h2>Задачи переезда</h2>
-      <div class="row" style="margin-bottom:12px;">
-        <input id="taskInput" class="input" placeholder="Новая задача..." />
-        <button id="addBtn" class="btn btn-primary">Добавить</button>
-      </div>
-      <ul id="taskList" class="list"></ul>
-    </div>
-  `;
-
-  const input = $('#taskInput');
-  const list = $('#taskList');
-  const addBtn = $('#addBtn');
-
-  function addTask() {
-    const text = (input.value || '').trim();
-    if (!text) { alert('Введите текст задачи'); input.focus(); return; }
-
-    const li = document.createElement('li');
-    li.className = 'list-item';
-    li.innerHTML = `
-      <span class="item-title">${text}</span>
-      <div class="item-actions">
-        <button class="btn">Готово</button>
-        <button class="btn btn-danger">Удалить</button>
-      </div>
+  if (route === '/' || route === '/home') {
+    app.innerHTML = `
+      <h2>Добро пожаловать в Moving Planner</h2>
+      <p>Планируйте свой переезд и управляйте задачами!</p>
     `;
+  } else if (route === '/tasks') {
+    app.innerHTML = `
+      <h2>Список задач переезда</h2>
+      <div class="row">
+        <input type="text" id="taskInput" placeholder="Введите новую задачу..." />
+        <button onclick="addTask()">Добавить</button>
+      </div>
+      <ul id="taskList"></ul>
+    `;
+  } else {
+    app.innerHTML = `<h2>Страница не найдена</h2>`;
+  }
+}
 
-    const [doneBtn, delBtn] = $$('.btn', li);
-    doneBtn.addEventListener('click', () => li.classList.toggle('completed'));
-    delBtn.addEventListener('click', () => li.remove());
+function addTask() {
+  const input = document.getElementById('taskInput');
+  if (!input) return;
 
-    list.appendChild(li);
-    input.value = '';
-    input.focus();
+  const text = input.value.trim();
+  if (!text) {
+    alert('Введите текст задачи!');
+    return;
   }
 
-  addBtn.addEventListener('click', addTask);
-  input.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') addTask();
-  });
+  const list = document.getElementById('taskList');
+  const li = document.createElement('li');
+  li.innerHTML = `
+    <span>${text}</span>
+    <button onclick="this.parentElement.remove()">Удалить</button>
+  `;
+  list.appendChild(li);
+
+  input.value = "";
+  input.focus();
 }
-
-const routes = {
-  '#/': renderHome,
-  '#/tasks': renderTasks,
-};
-
-function getPath() {
-  const hash = location.hash || '#/';
-  return routes[hash] ? hash : '#/';
-}
-
-function render() {
-  const path = getPath();
-  initNav(path);
-  const root = document.getElementById('app');
-  routes[path](root);
-}
-
-window.addEventListener('hashchange', render);
-document.addEventListener('DOMContentLoaded', render);
