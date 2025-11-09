@@ -1,29 +1,41 @@
+
 body {
   font-family: Arial, sans-serif;
-  background: #f0f4f8;
-  margin: 0;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
 }
+
 .container {
-  max-width: 700px;
-  margin: 40px auto;
-  background: #fff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 10px 24px rgba(0,0,0,0.05);
+  background: #f91999;
+  padding: 20px;
+  border-radius: 8px;
 }
-.row { display: flex; gap: 12px; margin-bottom: 16px; }
-input[type="text"] {
-  flex: 1; padding: 10px 12px; border: 1px solid #cbd5e1; border-radius: 8px;
+
+.input-section {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input {
+  flex: 1;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
 }
 button {
-  padding: 10px 16px; border: none; border-radius: 8px; background: #0d6efd; color: #fff; cursor: pointer;
+  padding: 8px 16px;
+  background: #007acc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
 }
-button:hover { background: #0b5ed7; }
 li {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 8px 0; border-bottom: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px;
+  border-bottom: 1px solid #eee;
 }
-li .title { flex: 1; margin-right: 12px; }
-li .actions { display: flex; gap: 8px; }
-li.completed .title { text-decoration: line-through; color: #94a3b8; }
