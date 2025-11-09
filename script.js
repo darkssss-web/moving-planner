@@ -8,24 +8,22 @@ function addTask() {
   }
 
   const taskList = document.getElementById('taskList');
-
   const li = document.createElement('li');
-  li.className = 'task-item card';
 
+  li.classList.add('task-item');
   li.innerHTML = `
-    <span class="task-title">${taskText}</span>
-    <div class="actions">
-      <button class="btn btn-done" onclick="toggleDone(this)">✔</button>
-      <button class="btn btn-delete" onclick="this.closest('li').remove()">🗑</button>
-    </div>
+    <span class="task-text">${taskText}</span>
+    <button class="btn btn-danger" onclick="this.parentElement.remove()">Удалить</button>
   `;
 
   taskList.appendChild(li);
+
+  requestAnimationFrame(() => li.classList.add('visible'));
+
   taskInput.value = "";
   taskInput.focus();
 }
 
-function toggleDone(button) {
-  const li = button.closest('li');
-  li.classList.toggle('completed');
-}
+document.getElementById('taskInput').addEventListener('focus', (e) => {
+  e.target.style.outline = '2px solid var(--color-primary, #0d6efd)';
+});
