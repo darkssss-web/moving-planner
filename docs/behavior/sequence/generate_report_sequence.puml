@@ -1,0 +1,34 @@
+@startuml GenerateReportSequence
+
+actor User
+participant UI
+participant Controller
+participant ReportService
+participant PDFService
+database DB
+
+User -> UI : click "Generate Report"
+UI -> Controller : GET /report/packing
+activate Controller
+
+Controller -> ReportService : buildPackingReport()
+activate ReportService
+
+ReportService -> DB : SELECT * FROM Items JOIN Boxes JOIN Rooms
+DB --> ReportService : itemsWithLocations
+
+ReportService -> PDFService : generatePDF(itemsWithLocations)
+activate PDFService
+
+PDFService --> ReportService : pdf_file
+deactivate PDFService
+
+ReportService --> Controller : ReportReady(pdf_file)
+deactivate ReportService
+
+Controller --> UI : 200 OK (pdf link)
+deactivate Controller
+
+UI -> User : show "Report ready for download"
+
+@enduml
