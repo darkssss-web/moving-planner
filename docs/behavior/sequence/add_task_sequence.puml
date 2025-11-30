@@ -1,0 +1,34 @@
+@startuml AddTaskSequence
+
+actor User
+participant UI
+participant Controller
+participant TaskService
+participant NotificationService
+database DB
+
+User -> UI : open New Task
+UI -> Controller : POST /tasks
+activate Controller
+
+Controller -> TaskService : createTask(data)
+activate TaskService
+
+TaskService -> DB : INSERT INTO Tasks(...)
+DB --> TaskService : new task_id
+
+TaskService --> NotificationService : notifyTaskCreated(task_id)
+activate NotificationService
+
+NotificationService --> TaskService : OK
+deactivate NotificationService
+
+TaskService --> Controller : Success(task_id)
+deactivate TaskService
+
+Controller --> UI : 201 Created
+deactivate Controller
+
+UI -> User : show "Task created"
+
+@enduml
