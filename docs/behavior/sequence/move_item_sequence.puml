@@ -1,0 +1,27 @@
+@startuml MoveItemSequence
+
+actor User
+participant UI
+participant Controller
+participant ItemService
+database DB
+
+User -> UI : open item page
+UI -> Controller : PATCH /item/{id}/moveToBox(box_id)
+activate Controller
+
+Controller -> ItemService : moveItemToBox(id, box_id)
+activate ItemService
+
+ItemService -> DB : UPDATE Items SET box_id=?
+DB --> ItemService : OK
+
+ItemService --> Controller : Success()
+deactivate ItemService
+
+Controller --> UI : 200 OK
+deactivate Controller
+
+UI -> User : show "Item moved"
+
+@enduml
