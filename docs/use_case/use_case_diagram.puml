@@ -1,0 +1,54 @@
+@startuml MovingPlannerUseCase
+
+skinparam usecaseBorderColor #333
+skinparam usecaseBackgroundColor #EEE
+skinparam actorStyle "awesome"
+
+actor User
+
+rectangle "Moving Planner System" {
+
+  User --> (View Dashboard)
+  User --> (Search Items)
+  User --> (Generate Packing Report)
+
+  (Generate Packing Report) ..> (Export PDF) : <<extend>>
+
+  ' Rooms
+  User --> (Manage Rooms)
+  (Manage Rooms) --> (Add Room) : <<include>>
+  (Manage Rooms) --> (Edit Room) : <<include>>
+  (Manage Rooms) --> (Delete Room)
+  (Add Room) ..> (Validate Input) : <<include>>
+  (Edit Room) ..> (Validate Input) : <<include>>
+
+  ' Boxes
+  User --> (Manage Boxes)
+  (Manage Boxes) --> (Add Box) : <<include>>
+  (Manage Boxes) --> (Edit Box) : <<include>>
+  (Manage Boxes) --> (Assign Box To Room)
+  (Manage Boxes) --> (Delete Box)
+  (Add Box) ..> (Validate Input) : <<include>>
+  (Edit Box) ..> (Validate Input) : <<include>>
+
+  ' Items
+  User --> (Manage Items)
+  (Manage Items) --> (Add Item) : <<include>>
+  (Manage Items) --> (Edit Item) : <<include>>
+  (Manage Items) --> (Move Item To Box)
+  (Manage Items) --> (Delete Item)
+  (Add Item) ..> (Validate Input) : <<include>>
+  (Edit Item) ..> (Validate Input) : <<include>>
+
+  ' Tasks
+  User --> (Manage Tasks)
+  (Manage Tasks) --> (Add Task) : <<include>>
+  (Manage Tasks) --> (Edit Task) : <<include>>
+  (Manage Tasks) --> (Delete Task)
+  (Manage Tasks) --> (Mark Task Complete)
+  (Mark Task Complete) ..> (Remind User) : <<extend>>
+  (Add Task) ..> (Validate Input) : <<include>>
+
+}
+
+@enduml
