@@ -1,0 +1,27 @@
+@startuml AddItemSequence
+
+actor User
+participant UI
+participant Controller
+participant ItemService
+database DB
+
+User -> UI : open Add Item form
+UI -> Controller : POST /items (data)
+activate Controller
+
+Controller -> ItemService : createItem(data)
+activate ItemService
+
+ItemService -> DB : INSERT INTO Items(...)
+DB --> ItemService : new item_id
+
+ItemService --> Controller : Success(item_id)
+deactivate ItemService
+
+Controller --> UI : 200 OK {item_id}
+deactivate Controller
+
+UI -> User : show "Item added"
+
+@enduml
