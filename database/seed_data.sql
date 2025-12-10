@@ -1,22 +1,25 @@
 INSERT INTO Users (username, email) VALUES
-  ('alex',  'alex@example.com'),
-  ('maria', 'maria@example.com');
+  ('alex_mover',  'alex@example.com'),
+  ('maria_move',  'maria@example.com');
 
 INSERT INTO Rooms (user_id, name, description) VALUES
-  (1, 'Kitchen',  'Кухня в новой квартире'),
-  (1, 'Bedroom',  'Спальня'),
+  (1, 'Kitchen',     'Кухня в новой квартире'),
+  (1, 'Bedroom',     'Основная спальня'),
   (2, 'Living Room', 'Гостиная у Марии');
 
-INSERT INTO Boxes (user_id, room_id, label, notes) VALUES
-  (1, 1, 'Box #1', 'Fragile: посуда'),
-  (1, 2, 'Box #2', 'Одежда'),
-  (2, 3, 'Box #A', 'Книги');
+INSERT INTO Boxes (room_id, label, notes) VALUES
+  (1, 'Box #1', 'Посуда, хрупкое'),
+  (1, 'Box #2', 'Кухонная техника'),
+  (2, 'Box #3', 'Одежда Алекса'),
+  (3, 'Box #A', 'Книги Марии');
 
-INSERT INTO Items (user_id, room_id, box_id, name, description, is_fragile, value_estimate) VALUES
-  (1, 1, 1, 'Plate Set', 'Набор тарелок', 1, 500),
-  (1, 2, 2, 'Jacket', 'Зимняя куртка', 0, 1500),
-  (2, 3, 3, 'Fantasy Book', 'Любимая книга', 0, 300),
-  (1, 1, NULL, 'Microwave', 'Пока не упакован', 0, 4000);
+INSERT INTO Items (box_id, name, description, is_fragile, value_estimate) VALUES
+  (1, 'Набор тарелок', 'Белые керамические тарелки', 1, 3000),
+  (1, 'Стаканы',       'Стеклянные стаканы',         1, 1500),
+  (2, 'Микроволновка', 'Кухонная техника',           0, 8000),
+  (3, 'Зимняя куртка', 'Одежда на зиму',             0, 6000),
+  (4, 'Фэнтези-роман', 'Любимая книга',              0, 500),
+  (NULL, 'Картина',    'Пока не упакована',          1, 12000);
 
 INSERT INTO Statuses (name) VALUES
   ('planned'),
@@ -24,6 +27,7 @@ INSERT INTO Statuses (name) VALUES
   ('done');
 
 INSERT INTO Tasks (user_id, title, description, due_date, status_id) VALUES
-  (1, 'Pack kitchen items', 'Упаковать всю кухонную утварь', '2025-12-15', 2),
-  (1, 'Label all boxes', 'Наклеить стикеры с названиями комнат', '2025-12-20', 1),
-  (2, 'Move books', 'Перевезти все книги в новую гостиную', '2025-11-20', 3);
+  (1, 'Упаковать кухню',        'Собрать всю кухонную утварь в коробки', '2025-12-10', 2),
+  (1, 'Подписать коробки',      'Наклеить стикеры с названиями комнат', '2025-12-12', 1),
+  (2, 'Перевезти книги',        'Все книги перенести в гостиную',       '2025-11-20', 3),
+  (2, 'Разобрать одежду',       'Разложить одежду по шкафам',           '2025-11-25', 1);
