@@ -1,34 +1,32 @@
-@startuml GenerateReportSequence
+@startuml Генерация_Отчёта_По_Упаковке
 
-actor User
-participant UI
-participant Controller
-participant ReportService
-participant PDFService
-database DB
+actor "Пользователь" as User
+participant "Интерфейс" as UI
+participant "Сервис отчётов" as ReportService
+participant "PDF сервис" as PDF
+database "База данных" as DB
 
-User -> UI : click "Generate Report"
-UI -> Controller : GET /report/packing
-activate Controller
-
-Controller -> ReportService : buildPackingReport()
+User -> UI : создать отчёт
+UI -> ReportService : сформировать отчёт
 activate ReportService
 
-ReportService -> DB : SELECT * FROM Items JOIN Boxes JOIN Rooms
-DB --> ReportService : itemsWithLocations
+ReportService -> DB : получить список вещей
+activate DB
+DB --> ReportService : список вещей
+deactivate DB
 
-ReportService -> PDFService : generatePDF(itemsWithLocations)
-activate PDFService
+loop для каждой вещи
+  ReportService -> ReportService : добавить в отчёт
+end
 
-PDFService --> ReportService : pdf_file
-deactivate PDFService
+opt Экспорт в PDF
+  ReportService -> PDF : сгенерировать PDF
+  activate PDF
+  PDF --> ReportService
+  deactivate PDF
+end
 
-ReportService --> Controller : ReportReady(pdf_file)
+ReportService --> UI : отчёт готов
 deactivate ReportService
-
-Controller --> UI : 200 OK (pdf link)
-deactivate Controller
-
-UI -> User : show "Report ready for download"
 
 @enduml
