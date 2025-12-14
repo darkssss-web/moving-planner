@@ -1,34 +1,27 @@
-@startuml AddTaskSequence
+@startuml Добавление_Задачи
 
-actor User
-participant UI
-participant Controller
-participant TaskService
-participant NotificationService
-database DB
+actor "Пользователь" as User
+participant "Интерфейс" as UI
+participant "Сервис задач" as TaskService
+database "База данных" as DB
 
-User -> UI : open New Task
-UI -> Controller : POST /tasks
-activate Controller
-
-Controller -> TaskService : createTask(data)
+User -> UI : открыть форму задачи
+UI -> TaskService : создать задачу (данные)
 activate TaskService
 
-TaskService -> DB : INSERT INTO Tasks(...)
-DB --> TaskService : new task_id
+TaskService -> DB : INSERT INTO Tasks
+activate DB
+DB --> TaskService
+deactivate DB
 
-TaskService --> NotificationService : notifyTaskCreated(task_id)
-activate NotificationService
+opt Указан срок выполнения
+  TaskService -> DB : сохранить due_date
+  activate DB
+  DB --> TaskService
+  deactivate DB
+end
 
-NotificationService --> TaskService : OK
-deactivate NotificationService
-
-TaskService --> Controller : Success(task_id)
+TaskService --> UI : задача создана
 deactivate TaskService
-
-Controller --> UI : 201 Created
-deactivate Controller
-
-UI -> User : show "Task created"
 
 @enduml
