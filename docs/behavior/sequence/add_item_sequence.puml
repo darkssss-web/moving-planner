@@ -1,27 +1,27 @@
-@startuml AddItemSequence
+@startuml Добавление_Вещи
 
-actor User
-participant UI
-participant Controller
-participant ItemService
-database DB
+actor "Пользователь" as User
+participant "Интерфейс" as UI
+participant "Сервис вещей" as ItemService
+database "База данных" as DB
 
-User -> UI : open Add Item form
-UI -> Controller : POST /items (data)
-activate Controller
-
-Controller -> ItemService : createItem(data)
+User -> UI : открыть форму добавления вещи
+UI -> ItemService : добавить вещь (данные)
 activate ItemService
 
-ItemService -> DB : INSERT INTO Items(...)
-DB --> ItemService : new item_id
+ItemService -> DB : INSERT INTO Items
+activate DB
+DB --> ItemService
+deactivate DB
 
-ItemService --> Controller : Success(item_id)
+opt Вещь хрупкая
+  ItemService -> DB : отметить is_fragile = true
+  activate DB
+  DB --> ItemService
+  deactivate DB
+end
+
+ItemService --> UI : вещь добавлена
 deactivate ItemService
-
-Controller --> UI : 200 OK {item_id}
-deactivate Controller
-
-UI -> User : show "Item added"
 
 @enduml
