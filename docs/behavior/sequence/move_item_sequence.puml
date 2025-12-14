@@ -1,27 +1,24 @@
-@startuml MoveItemSequence
+@startuml Перемещение_Вещи_В_Коробку
 
-actor User
-participant UI
-participant Controller
-participant ItemService
-database DB
+actor "Пользователь" as User
+participant "Интерфейс" as UI
+participant "Сервис вещей" as ItemService
+database "База данных" as DB
 
-User -> UI : open item page
-UI -> Controller : PATCH /item/{id}/moveToBox(box_id)
-activate Controller
-
-Controller -> ItemService : moveItemToBox(id, box_id)
+User -> UI : выбрать коробку для вещи
+UI -> ItemService : переместить вещь (item_id, box_id)
 activate ItemService
 
-ItemService -> DB : UPDATE Items SET box_id=?
-DB --> ItemService : OK
+alt Коробка существует
+  ItemService -> DB : UPDATE Items SET box_id
+  activate DB
+  DB --> ItemService
+  deactivate DB
+else Коробка не найдена
+  ItemService --> UI : ошибка
+end
 
-ItemService --> Controller : Success()
+ItemService --> UI : операция завершена
 deactivate ItemService
-
-Controller --> UI : 200 OK
-deactivate Controller
-
-UI -> User : show "Item moved"
 
 @enduml
