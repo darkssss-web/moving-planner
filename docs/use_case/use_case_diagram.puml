@@ -1,54 +1,56 @@
-@startuml MovingPlannerUseCase
+@startuml Диаграмма_Вариантов_Использования_MovingPlanner
 
 skinparam usecaseBorderColor #333
 skinparam usecaseBackgroundColor #EEE
-skinparam actorStyle "awesome"
+skinparam actorStyle awesome
 
-actor User
+actor "Пользователь" as User
 
-rectangle "Moving Planner System" {
+rectangle "Система Moving Planner" {
 
-  User --> (View Dashboard)
-  User --> (Search Items)
-  User --> (Generate Packing Report)
+  ' --- Общие сценарии ---
+  User --> (Просмотр панели управления)
+  User --> (Поиск вещей)
+  User --> (Создание отчёта по упаковке)
 
-  (Generate Packing Report) ..> (Export PDF) : <<extend>>
+  (Создание отчёта по упаковке) ..> (Экспорт в PDF) : <<extend>>
 
-  ' Rooms
-  User --> (Manage Rooms)
-  (Manage Rooms) --> (Add Room) : <<include>>
-  (Manage Rooms) --> (Edit Room) : <<include>>
-  (Manage Rooms) --> (Delete Room)
-  (Add Room) ..> (Validate Input) : <<include>>
-  (Edit Room) ..> (Validate Input) : <<include>>
+  ' --- Комнаты ---
+  User --> (Добавить комнату)
+  User --> (Редактировать комнату)
+  User --> (Удалить комнату)
 
-  ' Boxes
-  User --> (Manage Boxes)
-  (Manage Boxes) --> (Add Box) : <<include>>
-  (Manage Boxes) --> (Edit Box) : <<include>>
-  (Manage Boxes) --> (Assign Box To Room)
-  (Manage Boxes) --> (Delete Box)
-  (Add Box) ..> (Validate Input) : <<include>>
-  (Edit Box) ..> (Validate Input) : <<include>>
+  (Добавить комнату) --> (Проверка данных) : <<include>>
+  (Редактировать комнату) --> (Проверка данных) : <<include>>
 
-  ' Items
-  User --> (Manage Items)
-  (Manage Items) --> (Add Item) : <<include>>
-  (Manage Items) --> (Edit Item) : <<include>>
-  (Manage Items) --> (Move Item To Box)
-  (Manage Items) --> (Delete Item)
-  (Add Item) ..> (Validate Input) : <<include>>
-  (Edit Item) ..> (Validate Input) : <<include>>
+  ' --- Коробки ---
+  User --> (Добавить коробку)
+  User --> (Редактировать коробку)
+  User --> (Назначить коробку комнате)
+  User --> (Удалить коробку)
 
-  ' Tasks
-  User --> (Manage Tasks)
-  (Manage Tasks) --> (Add Task) : <<include>>
-  (Manage Tasks) --> (Edit Task) : <<include>>
-  (Manage Tasks) --> (Delete Task)
-  (Manage Tasks) --> (Mark Task Complete)
-  (Mark Task Complete) ..> (Remind User) : <<extend>>
-  (Add Task) ..> (Validate Input) : <<include>>
+  (Добавить коробку) --> (Проверка данных) : <<include>>
+  (Редактировать коробку) --> (Проверка данных) : <<include>>
 
+  ' --- Вещи ---
+  User --> (Добавить вещь)
+  User --> (Редактировать вещь)
+  User --> (Переместить вещь в коробку)
+  User --> (Удалить вещь)
+
+  (Добавить вещь) --> (Проверка данных) : <<include>>
+  (Редактировать вещь) --> (Проверка данных) : <<include>>
+
+  ' --- Задачи ---
+  User --> (Добавить задачу)
+  User --> (Редактировать задачу)
+  User --> (Удалить задачу)
+  User --> (Отметить задачу выполненной)
+
+  (Добавить задачу) --> (Проверка данных) : <<include>>
+  (Редактировать задачу) --> (Проверка данных) : <<include>>
+
+  (Отметить задачу выполненной) ..> (Отправить напоминание) : <<extend>>
 }
 
 @enduml
