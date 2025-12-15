@@ -43,28 +43,28 @@ URL: `{{base_url}}/tasks?status=completed`
 
 ### Create Task
 **Success – Task created**  
-URL: `{{base_url}}/tasks`
+URL: `{{base_url}}/tasks?title="Упаковать кухню"`
 
 **Error – Validation failed**  
-URL: `{{base_url}}/tasks`
+URL: `{{base_url}}/tasks?title`
 
 ---
 
 ### Update Task
 **Success – Task updated**  
-URL: `{{base_url}}/tasks?id=3`
+URL: `{{base_url}}/tasks?id=1`
 
 **Error – Task not found**  
-URL: `{{base_url}}/tasks?id=9999`
+URL: `{{base_url}}/tasks?id=999`
 
 ---
 
 ### Delete Task
 **Success – Task deleted**  
-URL: `{{base_url}}/tasks?id=3`
+URL: `{{base_url}}/tasks?id=1`
 
 **Error – Task not found**  
-URL: `{{base_url}}/tasks?id=9999`
+URL: `{{base_url}}/tasks?id=999`
 
 ---
 
